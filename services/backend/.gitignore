@@ -1,0 +1,14 @@
+###> ide/eclipse ###
+/.buildpath
+/.project
+###< ide/eclipse ###
+
+###> drupal ###
+/.env
+/.env.*.local
+/vendor/*
+/logs/*
+/var/log/*
+###< drupal ###
+
+!/**/.gitkeep

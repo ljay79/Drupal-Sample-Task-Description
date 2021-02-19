@@ -1,0 +1,15 @@
+###> ide/eclipse ###
+/.buildpath
+/.project
+###< ide/eclipse ###
+
+/services/frontend/*
+/services/frontend-api/*
+/services/frontend-cms/*
+/services/frontend-worker/*
+
+# docker "logs" shared volume
+/logs/*
+!/logs/.gitkeep
+/.env.dev
+/.env

@@ -1,0 +1,5 @@
+# like .gitignore but for Docker build process ie when using COPY . /copy-all
+Dockerfile
+
+.composer/
+.cache/

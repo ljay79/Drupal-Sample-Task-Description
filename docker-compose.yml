@@ -1,0 +1,70 @@
+version: '3.0'
+
+services:
+
+  # CMS (php)
+  php:
+    image: ${COMPOSE_PROJECT_NAME}/cms_php:${STAGE}
+    container_name: ${COMPOSE_PROJECT_NAME}_cms_php
+    build:
+      context: './services/backend'
+      dockerfile: .docker/php-fpm/Dockerfile
+      args:
+        stage: ${STAGE}
+        USER_ID: ${UID}
+        GROUP_ID: ${GID}
+    volumes:
+      - ./services/backend/config:/var/www/html/config:cached
+      - ./services/backend/web:/var/www/html/web
+      # For development only; run composer update
+      #- ./services/backend/vendor:/var/www/html/vendor
+      - ./services/backend/composer.json:/var/www/html/composer.json
+      - ./services/backend/composer.lock:/var/www/html/composer.lock
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+    depends_on:
+      - db
+
+  # CMS (nginx)
+  nginx:
+    image: ${COMPOSE_PROJECT_NAME}/cms_nginx:${STAGE}
+    container_name: ${COMPOSE_PROJECT_NAME}_cms_nginx
+    build:
+      context: './services/backend'
+      dockerfile: .docker/nginx/Dockerfile
+      args:
+        stage: ${STAGE}
+    volumes:
+      # mount your personal directory with the app's source code to be used inside nginx as doc root
+      - ./services/backend/web:/var/www/html/web
+    ports:
+      - 8080:80
+    links:
+      - db
+    depends_on:
+      - php
+      - db
+
+  # backend database
+  db:
+    image: ljay/mysql5:5.7.31
+    container_name: ${COMPOSE_PROJECT_NAME}_db_${STAGE}
+    volumes:
+      - db-data:/var/lib/mysql
+      # for first run, import latest dev database
+      - ./.docker/data/${INITIAL_DUMP_IMPORT}:/docker-entrypoint-initdb.d/database_dump_import.sql
+    environment:
+      - MYSQL_HOST=${MYSQL_HOST}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_ROOT_HOST=${MYSQL_ROOT_HOST}
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+
+volumes:
+  db-data:
