@@ -15,11 +15,11 @@ services:
         GROUP_ID: ${GID}
     volumes:
       - ./services/backend/config:/var/www/html/config:cached
-      - ./services/backend/web:/var/www/html/web
+      #- ./services/backend/web:/var/www/html/web
       # For development only; run composer update
       #- ./services/backend/vendor:/var/www/html/vendor
-      - ./services/backend/composer.json:/var/www/html/composer.json
-      - ./services/backend/composer.lock:/var/www/html/composer.lock
+      #- ./services/backend/composer.json:/var/www/html/composer.json
+      #- ./services/backend/composer.lock:/var/www/html/composer.lock
     environment:
       - MYSQL_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
