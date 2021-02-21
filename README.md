@@ -1,4 +1,4 @@
-# Setup for development (local)
+# Setup for localhost development
 
 ## Introduction
 For a development environment on your own workstation / localhost this project has been setup using docker containers and taking advantage of docker-compose to run all microservices needed for a fully working local development environment.
@@ -18,8 +18,10 @@ The following environment is expected to be in place and working already. If not
 
 ```
 sample/
+  - .docker/
   - services/backend/
-    - Dockerfile
+    - .docker/
+    - ..
   - docker-compose.yml
   - README.md
   - ..
