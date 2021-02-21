@@ -10,7 +10,6 @@ The following environment is expected to be in place and working already. If not
 * Linux based working machine or Windows 10 Pro with "WSL for Windows".
 * Docker Host installed and running
     * exposed daemon to _tcp://localhost:2375_ without TLS
-* Access to OK.de Bitbucket repositories (with SSH keys recommended)
 
 > Note: When running docker as a non-root user on your local machine you might need to use custom userId and gorupId to be passed to 
 > the container build process. Use the `.env` in projects root directory to define them.
