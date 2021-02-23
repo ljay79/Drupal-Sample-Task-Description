@@ -26,6 +26,7 @@ COPY .docker/php-fpm/ /opt/.docker/
 
 RUN set -eux; \
   yum update -y; \
+  yum install -y patch; \
   # move config files
   mv /opt/.docker/php.d/*.ini /etc/php.d/; \
   mv /opt/.docker/php.${stage}.ini /etc/php.d/99-php.ini; \
@@ -48,35 +49,6 @@ WORKDIR /var/www/html
 
 RUN set -eux; \
     cd /var/www/html; \
-    export COMPOSER_HOME="$(mktemp -d)"; \
-    if [ "${stage}" == "dev" ]; then \
-      ####################
-      # DEV environment  #
-      ####################
-      composer install \
-        --ignore-platform-reqs \
-        --optimize-autoloader \
-        --no-interaction \
-        --no-progress \
-        --prefer-dist \
-        --no-scripts \
-        --no-ansi; \
-    else \
-      ####################
-      # PROD environment #
-      ####################
-      composer install \
-        --ignore-platform-reqs \
-        --optimize-autoloader \
-        --no-interaction \
-        --no-progress \
-        --prefer-dist \
-        --no-scripts \
-        --no-ansi \
-        --no-dev; \
-    fi; \
-    # delete composer cache
-    rm -rf "$COMPOSER_HOME"; \
     # proper ownership
     chown -R www-data:www-data /var/www/html/
 
