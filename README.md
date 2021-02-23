@@ -102,9 +102,9 @@ then once done, run above `docker-compose up -d --remove-orphans` to spin up ent
 will build the remaining (smaller) containers.
 Using `--pull`will always attempt to pull a newer version of the image.
 ```
- # cms_php
-$ docker-compose build --force-rm --no-cache --pull cms_php
- # cms db
+ # php
+$ docker-compose build --force-rm --no-cache --pull php
+ # db
 $ docker-compose build --force-rm --no-cache --pull db
 ```
 
@@ -119,6 +119,6 @@ $ composer install
 
 Your 1 services are accessible via:
 
-* CMS => http://localhost:8080/      (default admin; username Admin and password Admin)
+* CMS => http://localhost:8080/      (default admin; username "admin" and password "admin")
 
 Done ...

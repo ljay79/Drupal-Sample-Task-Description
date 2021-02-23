@@ -56,10 +56,7 @@ RUN set -eux; \
 ENV PATH=${PATH}:/var/www/html/vendor/bin
 
 # cleanup
-RUN set -eux; \
-    rm -rf /opt/.docker/*; \
-    composer clear-cache; \
-    drush cc drush
+RUN rm -rf /opt/.docker/*
 
 #
 # -----
